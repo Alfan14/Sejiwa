@@ -1,2 +1,2 @@
-sejiwa-backend/node_modules/
-sejiwa-backend/.env
+node_modules/
+.env
