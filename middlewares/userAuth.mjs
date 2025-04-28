@@ -1,6 +1,6 @@
 //importing modules
 import express from "express";
-import db from "../";
+import db from "../models/index.mjs";
 
 //Assigning db.users to User variable
  const User = db.users;
@@ -12,7 +12,7 @@ import db from "../";
  try {
    const username = await User.findOne({
      where: {
-       userName: req.body.userName,
+       username: req.body.username,
      },
    });
    //if username exist in the database respond with a status of 409

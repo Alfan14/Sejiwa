@@ -1,28 +1,36 @@
 import bcrypt from "bcrypt";
-import db from "../models/userModel.mjs";
 import jwt from "jsonwebtoken";
+import { defaults } from "pg";
+import db from "../models/index.mjs";
 
-// Assigning users to the variable User
+
+
+  // Calling a secret key
+const SECRET_KEY = process.env.SECRET_KEY ;
+
+
+  // Assigning users to the variable User
 const User = db.users;
 
-//signing a user up
-//hashing users password before its saved to the database with bcrypt
+  //  signing a user up
+  //  hashing users password before its saved to the database with bcrypt
 const signup = async (req, res) => {
  try {
-   const { userName, email, password } = req.body;
+   const { username, email, password , role } = req.body;
    const data = {
-     userName,
+     username,
      email,
      password: await bcrypt.hash(password, 10),
+     role
    };
-   //saving the user
+   // saving the user
    const user = await User.create(data);
 
-   //if user details is captured
-   //generate token with the user's id and the secretKey in the env file
+   // if user details is captured
+   // generate token with the user's id and the secretKey in the env file
    // set cookie with the token generated
    if (user) {
-     let token = jwt.sign({ id: user.id }, process.env.secretKey, {
+     let token = jwt.sign({ id: user.id },SECRET_KEY, {
        expiresIn: 1 * 24 * 60 * 60 * 1000,
      });
 
@@ -39,14 +47,12 @@ const signup = async (req, res) => {
  }
 };
 
-
-//login authentication
-
+  //  login authentication
 const login = async (req, res) => {
  try {
 const { email, password } = req.body;
 
-   //find a user by their email
+  //  find a user by their email
    const user = await User.findOne({
      where: {
      email: email
@@ -54,15 +60,15 @@ const { email, password } = req.body;
      
    });
 
-   //if user email is found, compare password with bcrypt
+   // if user email is found, compare password with bcrypt
    if (user) {
      const isSame = await bcrypt.compare(password, user.password);
 
-     //if password is the same
-      //generate token with the user's id and the secretKey in the env file
+    //  if password is the same
+    //  generate token with the user's id and the secretKey in the env file
 
      if (isSame) {
-       let token = jwt.sign({ id: user.id }, process.env.secretKey, {
+       let token = jwt.sign({ id: user.id },SECRET_KEY, {
          expiresIn: 1 * 24 * 60 * 60 * 1000,
        });
 
@@ -84,7 +90,7 @@ const { email, password } = req.body;
  }
 };
 
-module.exports = {
+export default {
  signup,
  login,
 };

@@ -4,6 +4,8 @@ import multer from 'multer';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import db from './db/queries.mjs';
+import userRoutes from './routes/api/userRoute.mjs';
+
 
 dotenv.config();
 
@@ -34,6 +36,9 @@ app.get('/users/:id', db.getUserById)
 app.post('/users', db.createUser)
 app.put('/users/:id', db.updateUser)
 app.delete('/users/:id', db.deleteUser)
+
+//routes for the user API
+app.use('/api/', userRoutes)
 
 // Global error handling
 app.use((err, _req, res, next) => {
