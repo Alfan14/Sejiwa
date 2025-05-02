@@ -1,7 +1,5 @@
 import dotenv from 'dotenv';
 import pg from 'pg';
-import rbacMiddleware from '../middlewares/rbacMiddleware.mjs';
-import authenticateJWT from '../middlewares/authenticationJWT.mjs';
 
 const Pool = pg.Pool
 
@@ -31,7 +29,7 @@ const getConsultations = (req, res) => {
   })
 };
 
-const getConsultationById = (authenticateJWT ,  async (req, res, next) => await rbacMiddleware.checkPermission('read_consultation')(req, res, next) , async (req, res, next) => {
+const getConsultationById = (req, res, next)=> {
   const id = parseInt(req.params.id)
 
   pool.query('SELECT * FROM consultations WHERE id = $1', [id], (error, results) => {
@@ -40,7 +38,7 @@ const getConsultationById = (authenticateJWT ,  async (req, res, next) => await 
     }
     res.status(200).json(results.rows)
   })
-});
+};
 
 const createConsultation = (req, res) =>{
   const { booking_id, counselor_notes, student_notes, started_at , ended_at} = req.body
@@ -55,7 +53,7 @@ const createConsultation = (req, res) =>{
   })
 };
 
-const updateConsultation = (authenticateJWT ,  async (req, res, next) => await rbacMiddleware.checkPermission('update_consultation')(req, res, next) , async (req, res, next) => {
+const updateConsultation = (req, res) => {
   const id = parseInt(req.params.id)
   const { booking_id, counselor_notes, student_notes, started_at , ended_at} = req.body
 
@@ -69,9 +67,9 @@ const updateConsultation = (authenticateJWT ,  async (req, res, next) => await r
       res.status(200).send(`consultation modified with ID: ${id}`)
     }
   )
-});
+};
 
-const deleteConsultation = (authenticateJWT ,  async (req, res, next) => await rbacMiddleware.checkPermission('delete_consultation')(req, res, next) , async (req, res, next) => {
+const deleteConsultation = (req, res) => {
   const id = parseInt(req.params.id)
 
   pool.query('DELETE FROM consultations WHERE id = $1', [id], (error, results) => {
@@ -80,7 +78,7 @@ const deleteConsultation = (authenticateJWT ,  async (req, res, next) => await r
     }
     res.status(200).send(`consultation deleted with ID: ${id}`)
   })
-});
+};
 
 export default {
   getConsultations,

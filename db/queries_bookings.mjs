@@ -1,7 +1,5 @@
 import dotenv from 'dotenv';
 import pg from 'pg';
-import authenticateJWT from '../middlewares/authenticationJWT.mjs';
-import rbacMiddleware from '../middlewares/rbacMiddleware.mjs';
 
 const Pool = pg.Pool
 
@@ -21,7 +19,7 @@ const pool = new Pool({
   port: PORT,
 })
 
-const getBookings = (authenticateJWT ,  async (req, res, next) => await rbacMiddleware.checkPermission('read_booking')(req, res, next) , async (req, res, next) => {
+const getBookings = (req, res, next) => {
     
     pool.query('SELECT * FROM bookings ORDER BY id ASC', (error, results) => {
     if (error) {
@@ -29,9 +27,9 @@ const getBookings = (authenticateJWT ,  async (req, res, next) => await rbacMidd
     }
     res.status(200).json(results.rows)
   })
-});
+};
 
-const getBookingById = (authenticateJWT ,  async (req, res, next) => await rbacMiddleware.checkPermission('read_booking')(req, res, next) , async (req, res, next) => {
+const getBookingById = (req, res, next) => {
   const id = parseInt(req.params.id)
 
   pool.query('SELECT * FROM bookings WHERE id = $1', [id], (error, results) => {
@@ -40,9 +38,9 @@ const getBookingById = (authenticateJWT ,  async (req, res, next) => await rbacM
     }
     res.status(200).json(results.rows)
   })
-});
+};
 
-const createBooking = (authenticateJWT ,  async (req, res, next) => await rbacMiddleware.checkPermission('create_booking')(req, res, next) , async (req, res, next) => {
+const createBooking = (req, res) => {
   const { schedule_id, student_id, status, created_at} = req.body
 
   pool.query(
@@ -53,9 +51,9 @@ const createBooking = (authenticateJWT ,  async (req, res, next) => await rbacMi
     }
     res.status(201).send(`Booking added with ID: ${results.insertId}`)
   })
-});
+};
 
-const updateBooking = (authenticateJWT ,  async (req, res, next) => await rbacMiddleware.checkPermission('update_booking')(req, res, next) , async (req, res, next) => {
+const updateBooking = (req, res, next) => {
   const id = parseInt(req.params.id)
   const { schedule_id, student_id, status, created_at} = req.body
 
@@ -69,9 +67,9 @@ const updateBooking = (authenticateJWT ,  async (req, res, next) => await rbacMi
       res.status(200).send(`Booking modified with ID: ${id}`)
     }
   )
-});
+};
 
-const deleteBooking = (authenticateJWT ,  async (req, res, next) => await rbacMiddleware.checkPermission('delete_booking')(req, res, next) , async (req, res, next) => {
+const deleteBooking = (req, res) => {
   const id = parseInt(req.params.id)
 
   pool.query('DELETE FROM bookings WHERE id = $1', [id], (error, results) => {
@@ -80,7 +78,7 @@ const deleteBooking = (authenticateJWT ,  async (req, res, next) => await rbacMi
     }
     res.status(200).send(`Booking deleted with ID: ${id}`)
   })
-});
+};
 
 export default {
   getBookings,

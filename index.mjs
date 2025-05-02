@@ -45,21 +45,21 @@ app.delete('/users/:id', db.deleteUser)
 app.use('/api/', userRoutes)
 
 //routes for the booking
-app.get('/api/bookings', authenticate , db_booking.getBookings);
-app.get('/api/bookings/:id', db_booking.getBookingById)
-app.post('/api/bookings', db_booking.createBooking)
-app.put('/api/bookings/:id', db_booking.updateBooking)
-app.delete('/api/bookings/:id', db_booking.deleteBooking)
+app.get('/api/bookings',authenticate, authorize(['konselor']) , db_booking.getBookings);
+app.get('/api/bookings/:id',authenticate, authorize(['konselor']), db_booking.getBookingById);
+app.post('/api/bookings', authenticate, authorize(['pelajar']),db_booking.createBooking);
+app.put('/api/bookings/:id', authenticate, authorize(['pelajar','konselor']),db_booking.updateBooking);
+app.delete('/api/bookings/:id',authenticate, authorize(['pelajar','konselor']), db_booking.deleteBooking);
 
 // Routes for the schedule
-app.get('/api/consultations', db_consultation.getConsultations)
-app.get('/api/consultations/:id', db_consultation.getConsultationById)
+app.get('/api/consultations', authenticate, authorize(['konselor']),db_consultation.getConsultations);
+app.get('/api/consultations/:id', authenticate, authorize(['konselor']), db_consultation.getConsultationById);
 app.post('/api/consultations', authenticate, authorize(['konselor']),db_consultation.createConsultation);
-app.put('/api/consultations/:id', db_consultation.updateConsultation)
-app.delete('/api/consultations/:id', db_consultation.deleteConsultation)
+app.put('/api/consultations/:id', authenticate, authorize(['konselor']), db_consultation.updateConsultation);
+app.delete('/api/consultations/:id', authenticate, authorize(['konselor']), db_consultation.deleteConsultation);
 
 // Global error handling
-app.use((err, _req, res, next) => {
+app.use((err, _req, res) => {
   console.error("Unhandled error:", err);
   res.status(500).send("Uh oh! An unexpected error occured.")
 })
