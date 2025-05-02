@@ -14,7 +14,7 @@ const User = db.users;
 
   //  signing a user up
   //  hashing users password before its saved to the database with bcrypt
-const signup = async (req, res) => {
+const register = async (req, res) => {
  try {
    const { username, email, password , role } = req.body;
    const data = {
@@ -68,9 +68,9 @@ const { email, password } = req.body;
     //  generate token with the user's id and the secretKey in the env file
 
      if (isSame) {
-       let token = jwt.sign({ id: user.id },SECRET_KEY, {
-         expiresIn: 1 * 24 * 60 * 60 * 1000,
-       });
+       let token = jwt.sign({ id: user.id, email: user.email, role: user.role }, SECRET_KEY, {
+        expiresIn: '1d',
+        });
 
        //if password matches wit the one in the database
        //go ahead and generate a cookie for the user
@@ -78,7 +78,7 @@ const { email, password } = req.body;
        console.log("user", JSON.stringify(user, null, 2));
        console.log(token);
        //send user data
-       return res.status(201).send(user);
+       return res.status(200).send(user);
      } else {
        return res.status(401).send("Authentication failed");
      }
@@ -91,6 +91,6 @@ const { email, password } = req.body;
 };
 
 export default {
- signup,
+ register,
  login,
 };

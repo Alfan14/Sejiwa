@@ -1,5 +1,7 @@
 import dotenv from 'dotenv';
 import pg from 'pg';
+import authenticateJWT from '../middlewares/authenticationJWT.mjs';
+
 
 const Pool = pg.Pool
 
@@ -19,14 +21,14 @@ const pool = new Pool({
   port: PORT,
 })
 
-const getUsers = (request, response) => {
+const getUsers = (authenticateJWT , async (request, response) => {
   pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
     if (error) {
       throw error
     }
     response.status(200).json(results.rows)
   })
-}
+});
 
 const getUserById = (request, response) => {
   const id = parseInt(request.params.id)
