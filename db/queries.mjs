@@ -41,10 +41,10 @@ const getUserById = (request, response) => {
 }
 
 const createUser = (request, response) => {
-  const { name, email , password , role } = request.body
+  const { username, email , password , role } = request.body
 
-  pool.query(    'INSERT INTO users (name, email, password, role) VALUES ($1, $2, $3, $4)',
-    [name, email , password , role], (error, results) => {
+  pool.query(    'INSERT INTO users (username, email, password, role) VALUES ($1, $2, $3, $4)',
+    [username, email , password , role], (error, results) => {
     if (error) {
       throw error
     }
@@ -54,11 +54,11 @@ const createUser = (request, response) => {
 
 const updateUser = (request, response) => {
   const id = parseInt(request.params.id)
-  const { name, email , password , role} = request.body
+  const { username, email , password , role} = request.body
 
   pool.query(
-    'UPDATE users SET name = $1, email = $2 , password = $3 , role = $4 WHERE id = $5',
-    [name, email, password , role , id],
+    'UPDATE users SET username = $1, email = $2 , password = $3 , role = $4 WHERE id = $5',
+    [username, email, password , role , id],
     (error, results) => {
       if (error) {
         throw error

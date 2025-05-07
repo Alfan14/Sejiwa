@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Hello!</title>
+   </head>
+   
+   <body>
+   <form id="form" action="">
+      <input id="input" autocomplete="off" />
+      <button id="chat">Send</button>
+      <button>Disconnect</button>
+    </form>
+   <script>
+   const socket = io('http://localhost:3000', {
+      extraHeaders: {
+         'consultation-id': '123', // dynamically pass consultationId
+      }
+   });
+
+  // Send a message
+  function sendMessage() {
+    const message = document.getElementById('chat').value;
+    socket.emit('chat-message', {
+      sender_id: 1, // your user ID
+      message: message
+    });
+  }
+
+  // Listen for messages
+  socket.on('chat-message', (data) => {
+    console.log('New message:', data);
+    // Append to UI..
+  });
+   </script>
+   </body>
+</html>
