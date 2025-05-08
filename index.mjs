@@ -15,7 +15,6 @@ import path from "path";
 import chatHandler from "./sockets/chatHandler.mjs";
 import initChatHandler from "./sockets/chatHandler.mjs";
 
-
 // Call dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,15 +23,13 @@ const { authenticate, authorize } = authMiddleware
 
 dotenv.config();
 
-const router = express.Router();
-
 const upload = multer();
 
 // Initialize apps
 const PORT = process.env.SERVER_PORT || 5000;
-const app = express()
+const app = express();
 const httpServer = createServer(app);
-const io = new Server(httpServer, { /* options */ });
+initChatHandler(httpServer);
 
 // Body parser middleware
 app.use(express.json())
@@ -67,25 +64,10 @@ app.post('/api/consultations', authenticate, authorize(['konselor']),db_consulta
 app.put('/api/consultations/:id', authenticate, authorize(['konselor']), db_consultation.updateConsultation);
 app.delete('/api/consultations/:id', authenticate, authorize(['konselor']), db_consultation.deleteConsultation);
 
-app.get("/", initChatHandler,(req, res) => {
+app.get("/",(req, res) => {
   res.sendFile(path.join(__dirname, "/index.html"));
 });
-
-io.on('connection', (socket) => {
-  console.log('a client connected');
-  socket.emit('to_client', { message: 'Hello from server!' });
-
-  // Listen a message from the client
-  socket.on('to_server', (data) => {
-    console.log('From client:', data);
-    socket.emit('to_client', { message: `Server Received: ${JSON.stringify(data)}` });
-
-  console.log('user connected');
-  socket.on('disconnect', function () {
-    console.log('user disconnected');
-    });
-  });
-})
+  
 // Global error handling
 app.use((err, req, res, next) => {
   console.error("Unhandled error:", err);

@@ -2,7 +2,6 @@ import { Server as SocketIOServer } from 'socket.io';
 import dotenv from 'dotenv';
 import pg from 'pg';
 
-
 const Pool = pg.Pool
 
 dotenv.config(); 
@@ -23,13 +22,13 @@ const pool = new Pool({
 
 // Get consultationId from headers (or auth token)
 function getConsultationIdFromHeaders(headers) {
-    return headers['consultation-id']; // Part can improve
+    return headers['consultation-id']; 
   }
 
 function initChatHandler(httpServer) {
     const io = new SocketIOServer(httpServer, {
       cors: {
-        origin: '*', // Security 
+        origin: '*', 
       },
     });
 
