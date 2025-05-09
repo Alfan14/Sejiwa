@@ -27,6 +27,7 @@
 
    const socket = io('http://localhost:5000', {
       extraHeaders: {
+          authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJhcmk1NkBnbWFpbC5jb20iLCJyb2xlIjoicGVsYWphciIsImlhdCI6MTc0Njc4MzY0NCwiZXhwIjoxNzQ2ODcwMDQ0fQ.5Ne3IrWH8nsV9uoFDHyR9yrsw-7LhgXq-gDhcG4dJ38',
          'consultation-id': '1', 
       }
    });

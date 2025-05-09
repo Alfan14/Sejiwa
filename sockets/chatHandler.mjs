@@ -1,4 +1,5 @@
 import { Server as SocketIOServer } from 'socket.io';
+import { verifyTokenFromHeaders } from '../utils/auth.mjs';
 import dotenv from 'dotenv';
 import pg from 'pg';
 
@@ -6,8 +7,8 @@ const Pool = pg.Pool
 
 dotenv.config(); 
 
-const USER = process.env.DB_USER ;
-const HOST = process.env.DB_HOST ; 
+const USER = process.env.DB_USER;
+const HOST = process.env.DB_HOST; 
 const DB = process.env.DB_NAME;
 const PASSWORD = process.env.DB_PASSWORD;
 const PORT = process.env.DB_PORT ;
@@ -32,7 +33,14 @@ function initChatHandler(httpServer) {
       },
     });
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
+    const user = verifyTokenFromHeaders(socket.handshake.headers);
+    if (!user) {
+      console.log('Unauthorized socket connection');
+      return socket.disconnect();
+    }
+    console.log('Authorized socket connection from user:', user.userId);
+
     const consultationId = getConsultationIdFromHeaders(socket.handshake.headers);
     if (!consultationId) return;
   
@@ -54,7 +62,7 @@ io.on('connection', (socket) => {
   
       // 2. Emit message to all in room
       io.to(room).emit('chat-message', {
-        sender_id,
+        sender_id: user.userId,
         message,
         timestamp,
       });

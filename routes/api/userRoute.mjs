@@ -1,17 +1,15 @@
-//importing modules
 import express from 'express';
-import userController from '../../controllers/userController.mjs';
-import userAuth from '../../middlewares/userAuth.mjs';
+import db from '../../db/queries.mjs';
+import  authMiddleware from '../../middlewares/authMiddleware.mjs';
 
-const { register, login } = userController
+const { authenticate, authorize } = authMiddleware
 
 const router = express.Router()
 
-//signup endpoint
-//passing the middleware function to the signup
-router.post('/signup', userAuth.saveUser, register)
+router.get('/users', authenticate, authorize(['admin']),db.getUsers)
+router.get('/users/:id', authenticate, authorize(['admin']),db.getUserById)
+router.post('/users', authenticate, authorize(['admin']),db.createUser)
+router.put('/users/:id', authenticate, authorize(['admin']),db.updateUser)
+router.delete('/users/:id', authenticate, authorize(['admin']),db.deleteUser)
 
-//login route
-router.post('/login', login )
-
-export default router
+export default router;

@@ -3,23 +3,19 @@ import cors from "cors";
 import multer from 'multer';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
-import db from './db/queries.mjs';
-import db_booking from './db/queries_bookings.mjs';
-import db_consultation from './db/queries_consultations.mjs';
-import userRoutes from './routes/api/userRoute.mjs';
-import  authMiddleware from './middlewares/authMiddleware.mjs';
+import userRoutes from "./routes/api/userRoute.mjs"
+import authRoutes from './routes/api/authRoute.mjs';
+import bookingsRoutes from './routes/api/bookingsRoute.mjs';
+import consultationRoutes from './routes/api/consultationsRoute.mjs';
 import { createServer } from "http";
-import { Server } from "socket.io";
 import { fileURLToPath } from "url";
 import path from "path";
-import chatHandler from "./sockets/chatHandler.mjs";
 import initChatHandler from "./sockets/chatHandler.mjs";
 
 // Call dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const { authenticate, authorize } = authMiddleware
 
 dotenv.config();
 
@@ -41,28 +37,16 @@ app.use(upload.array());
 app.use(cors());
 
 // Users route
-app.get('/users', authenticate, authorize(['admin']),db.getUsers)
-app.get('/users/:id', authenticate, authorize(['admin']),db.getUserById)
-app.post('/users', authenticate, authorize(['admin']),db.createUser)
-app.put('/users/:id', authenticate, authorize(['admin']),db.updateUser)
-app.delete('/users/:id', authenticate, authorize(['admin']),db.deleteUser)
-
-//routes for the user API
 app.use('/api/', userRoutes)
 
+//routes for the user API
+app.use('/api/', authRoutes)
+
 //routes for the booking
-app.get('/api/bookings',authenticate, authorize(['konselor']) , db_booking.getBookings);
-app.get('/api/bookings/:id',authenticate, authorize(['konselor']), db_booking.getBookingById);
-app.post('/api/bookings', authenticate, authorize(['pelajar']),db_booking.createBooking);
-app.put('/api/bookings/:id', authenticate, authorize(['pelajar','konselor']),db_booking.updateBooking);
-app.delete('/api/bookings/:id',authenticate, authorize(['pelajar','konselor']), db_booking.deleteBooking);
+app.use('/api/', bookingsRoutes)
 
 // Routes for the schedule
-app.get('/api/consultations', authenticate, authorize(['konselor']),db_consultation.getConsultations);
-app.get('/api/consultations/:id', authenticate, authorize(['konselor']),db_consultation.getConsultationById);
-app.post('/api/consultations', authenticate, authorize(['konselor']),db_consultation.createConsultation);
-app.put('/api/consultations/:id', authenticate, authorize(['konselor']), db_consultation.updateConsultation);
-app.delete('/api/consultations/:id', authenticate, authorize(['konselor']), db_consultation.deleteConsultation);
+app.use('/api/', consultationRoutes)
 
 app.get("/",(req, res) => {
   res.sendFile(path.join(__dirname, "/index.html"));
