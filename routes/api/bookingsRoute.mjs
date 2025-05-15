@@ -1,5 +1,5 @@
 import express from 'express';
-import db_booking from '../../db/queries_bookings.mjs';
+import db_booking from '../../controllers/bookingController.mjs';
 import  authMiddleware from '../../middlewares/authMiddleware.mjs';
 
 const { authenticate, authorize } = authMiddleware

@@ -3,6 +3,7 @@ import cors from "cors";
 import multer from 'multer';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+import assessmentRoutes from './routes/api/assesmentRoute.mjs';
 import userRoutes from "./routes/api/userRoute.mjs"
 import authRoutes from './routes/api/authRoute.mjs';
 import bookingsRoutes from './routes/api/bookingsRoute.mjs';
@@ -47,6 +48,9 @@ app.use('/api/', bookingsRoutes)
 
 // Routes for the schedule
 app.use('/api/', consultationRoutes)
+
+// Routes for the assessment
+app.use('/api/', assessmentRoutes)
 
 app.get("/",(req, res) => {
   res.sendFile(path.join(__dirname, "/index.html"));

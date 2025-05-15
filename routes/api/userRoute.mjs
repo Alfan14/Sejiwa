@@ -1,5 +1,5 @@
 import express from 'express';
-import db from '../../db/queries.mjs';
+import db from '../../controllers/userController.mjs';
 import  authMiddleware from '../../middlewares/authMiddleware.mjs';
 
 const { authenticate, authorize } = authMiddleware
