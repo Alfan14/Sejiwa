@@ -10,7 +10,20 @@ const POSTGRE_URL = process.env.DB_URL
 //Database connection with dialect of postgres specifying the database we are using
 //port for my database is 5433
 //database name is discover
-const sequelize = new Sequelize(POSTGRE_URL, {dialect: "postgres"})
+const sequelize = new Sequelize(POSTGRE_URL, 
+    {
+        dialect: "postgres",
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false,
+            },
+    },
+        define: {
+            schema: 'public', 
+        }
+    }
+)
 
 //checking if connection is done
     sequelize.authenticate().then(() => {
