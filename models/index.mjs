@@ -11,20 +11,18 @@ const DATABASE_URL = process.env.DATABASE_URL
 //database name is discover
 console.log(DATABASE_URL)
 
-const sequelize = new Sequelize(DATABASE_URL, 
-    {
-        dialect: "postgres",
-        dialectOptions: {
-            ssl: {
-                require: true,
-                rejectUnauthorized: false,
-            },
+const sequelize = new Sequelize(DATABASE_URL, {
+  dialect: "postgres",
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
     },
-        define: {
-            schema: 'public', 
-        }
-    }
-)
+  },
+  define: {
+    schema: 'public',
+  },
+});
 
 //checking if connection is done
     sequelize.authenticate().then(() => {
