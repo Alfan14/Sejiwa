@@ -2,7 +2,6 @@
 import {Sequelize, DataTypes} from 'sequelize';
 import userModel from '../models/userModel.mjs'; 
 import dotenv from 'dotenv';
-
 dotenv.config();
 
 const DATABASE_URL = process.env.DATABASE_URL
@@ -10,6 +9,7 @@ const DATABASE_URL = process.env.DATABASE_URL
 //Database connection with dialect of DATABASEs specifying the database we are using
 //port for my database is 5433
 //database name is discover
+console.log(DATABASE_URL)
 
 const sequelize = new Sequelize(DATABASE_URL, 
     {
