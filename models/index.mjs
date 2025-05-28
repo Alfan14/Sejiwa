@@ -5,12 +5,13 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const POSTGRE_URL = process.env.DB_URL
+const DATABASE_URL = process.env.DATABASE_URL
 
-//Database connection with dialect of postgres specifying the database we are using
+//Database connection with dialect of DATABASEs specifying the database we are using
 //port for my database is 5433
 //database name is discover
-const sequelize = new Sequelize(POSTGRE_URL, 
+
+const sequelize = new Sequelize(DATABASE_URL, 
     {
         dialect: "postgres",
         dialectOptions: {
