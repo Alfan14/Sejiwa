@@ -76,7 +76,7 @@ const { email, password } = req.body;
        console.log("user", JSON.stringify(user, null, 2));
        console.log(token);
        //send user data
-       return res.status(200).send(user);
+       return res.status(200).send(token);
      } else {
        return res.status(401).send("Authentication failed");
      }
