@@ -1,3 +1,4 @@
+import pool from "../db/index.mjs";
 
 const getUsers = ( async (request, response) => {
     pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {

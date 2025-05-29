@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.mjs",
   "scripts": {
+    "migrate": "sequelize-cli db:migrate --config config/config.mjs",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --experimental-modules index.mjs",
     "start": "node index.mjs"

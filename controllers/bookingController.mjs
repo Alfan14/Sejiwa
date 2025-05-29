@@ -1,6 +1,5 @@
 import pool from "../db/index.mjs";
 
-
 const getBookings = (req, res, next) => {
     
     pool.query('SELECT * FROM bookings ORDER BY id ASC', (error, results) => {

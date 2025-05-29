@@ -1,3 +1,5 @@
+import pool from "../db/index.mjs";
+
 const getConsultations = (req, res) => {
 
     pool.query('SELECT * FROM consultations ORDER BY id ASC', (error, results) => {
