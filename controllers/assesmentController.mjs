@@ -1,8 +1,8 @@
-import pool from "../db/index.mjs";
+import db from "../models/index.mjs";
 
 const getQuestions = (req, res, next) => {
     
-    pool.query('SELECT * FROM assessment_questions ORDER BY id ASC', (error, results) => {
+    db.query('SELECT * FROM assessment_questions ORDER BY id ASC', (error, results) => {
     if (error) {
       throw error
     }
@@ -19,7 +19,7 @@ const submitAssessment = async (req, res) => {
     
     try {
         // 1. Ambil mapping dari database berdasarkan kode emosi
-        const results = await pool.query(
+        const results = await db.query(
           `SELECT ar.recommendation_id, ar.weight 
            FROM assessment_recommendations ar
            JOIN assessment_questions aq ON aq.id = ar.question_id
@@ -42,7 +42,7 @@ const submitAssessment = async (req, res) => {
         .map(entry => parseInt(entry[0])); // Ambil ID rekomendasi
 
         // 4. Ambil detail rekomendasi berdasarkan ID yang diurutkan
-        const recommendationDetails = await pool.query(
+        const recommendationDetails = await db.query(
             `SELECT * FROM recommendations WHERE id = ANY($1)`,
             [sortedRecommendations]
         );
