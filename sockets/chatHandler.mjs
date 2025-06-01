@@ -7,19 +7,16 @@ const Pool = pg.Pool
 
 dotenv.config(); 
 
-const USER = process.env.DB_USER;
-const HOST = process.env.DB_HOST; 
-const DB = process.env.DB_NAME;
-const PASSWORD = process.env.DB_PASSWORD;
-const PORT = process.env.DB_PORT ;
+const DATABASE_URL = process.env.DATABASE_URL ;
 
 const pool = new Pool({
-  user: USER,
-  host: HOST,
-  database: DB,
-  password: PASSWORD,
-  port: PORT,
-})
+  
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    require: true,
+    rejectUnauthorized: false
+  }
+});
 
 // Get consultationId from headers (or auth token)
 function getConsultationIdFromHeaders(headers) {

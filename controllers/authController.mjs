@@ -24,9 +24,6 @@ const register = async (req, res) => {
    // saving the user
    const user = await User.create(data);
 
-   // if user details is captured
-   // generate token with the user's id and the secretKey in the env file
-   // set cookie with the token generated
    if (user) {
      let token = jwt.sign({ id: user.id },SECRET_KEY, {
        expiresIn: 1 * 24 * 60 * 60 * 1000,
