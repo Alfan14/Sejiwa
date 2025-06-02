@@ -8,6 +8,7 @@ import userRoutes from "./routes/api/userRoute.mjs"
 import authRoutes from './routes/api/authRoute.mjs';
 import bookingsRoutes from './routes/api/bookingsRoute.mjs';
 import consultationRoutes from './routes/api/consultationsRoute.mjs';
+import recomendationRoute from "./routes/api/recomendationRoute.mjs";
 import { createServer } from "http";
 import { fileURLToPath } from "url";
 import path from "path";
@@ -51,6 +52,9 @@ app.use('/api/', consultationRoutes)
 
 // Routes for the assessment
 app.use('/api/', assessmentRoutes)
+
+// Routes for the recomendation 
+app.use('/api',recomendationRoute)
 
 app.get("/",(req, res) => {
   res.sendFile(path.join(__dirname, "/index.html"));
