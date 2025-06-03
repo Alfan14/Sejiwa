@@ -6,10 +6,10 @@ const { authenticate, authorize } = authMiddleware
 
 const router = express.Router()
 
-router.get('/schedules',authenticate, authorize(['konselor']) , db_schedule.getSchedules);
-router.get('/schedules/:id',authenticate, authorize(['konselor']), db_schedule.getScheduleById);
-router.post('/schedules', authenticate, authorize(['pelajar']),db_schedule.createSchedule);
-router.put('/schedules/:id', authenticate, authorize(['pelajar']),db_schedule.updateSchedule);
-router.delete('/schedules/:id',authenticate, authorize(['pelajar']), db_schedule.deleteSchedule);
+router.get('/schedules',authenticate, authorize(['konselor','pelajar']) , db_schedule.getSchedules);
+router.get('/schedules/:id',authenticate, authorize(['konselor','pelajar']), db_schedule.getScheduleById);
+router.post('/schedules', authenticate, authorize(['konselor']),db_schedule.createSchedule);
+router.put('/schedules/:id', authenticate, authorize(['konselor']),db_schedule.updateSchedule);
+router.delete('/schedules/:id',authenticate, authorize(['konselor']), db_schedule.deleteSchedule);
 
 export default router;
