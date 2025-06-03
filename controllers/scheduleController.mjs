@@ -22,7 +22,7 @@ const getScheduleById = (req, res, next) => {
 };
 
 const createSchedule = (req, res) => {
-  const { id, date, time, is_available ,counselor_id} = req.body
+  const { id, date, time, is_available ,counselor_id } = req.body
 
   pool.query(
     'INSERT INTO schedules (id, date, time, is_available ,counselor_id) VALUES ($1, $2, $3, $4 ,$5)',
