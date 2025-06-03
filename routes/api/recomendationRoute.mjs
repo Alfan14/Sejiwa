@@ -14,5 +14,14 @@ router.post('/recommendations',recomendation.recommendation_answer, async (req, 
         }
     }
 )
+router.get('/recommendations', recomendation.recommendation_answer , async (req, res) => {
+  let answers;
+  try {
+    answers = JSON.parse(req.query.answers);
+    if (!Array.isArray(answers)) throw new Error();
+  } catch {
+    return res.status(400).json({ error: 'Invalid query param: answers[]' });
+  }
+});
 
 export default router;
