@@ -42,8 +42,8 @@ const updateSchedule = (req, res, next) => {
   const {date, time, is_available ,counselor_id } = req.body
 
   pool.query(
-    'UPDATE schedules SET id = $1, date = $2 , time = $3 , is_available = $4 , counselor_id = $5 WHERE id = $6',
-    [id, date, time, is_available ,counselor_id],
+    'UPDATE schedules SET date = $1, time = $2, is_available = $3, counselor_id = $4 WHERE id = $5',
+    [ date, time, is_available ,counselor_id],
     (error, results) => {
       if (error) {
         console.error('Database insert error:', error.message, error.stack);
