@@ -21,18 +21,18 @@ const getScheduleById = (req, res, next) => {
   })
 };
 
-pool.query(
-  'INSERT INTO schedules (date, time, is_available, counselor_id) VALUES ($1, $2, $3, $4) RETURNING id',
-  [date, time, is_available, counselor_id],
-  (error, results) => {
-    if (error) {
-      console.error(error); // Use this instead of crashing the server
-      return res.status(500).json({ error: 'Database error' });
-    }
-    res.status(201).send(`Schedule added with ID: ${results.rows[0].id}`);
-  }
-);
+const createSchedule = (req, res) => {
+  const { date, time, is_available ,counselor_id } = req.body
 
+  pool.query(
+    'INSERT INTO schedules ( date, time, is_available ,counselor_id) VALUES ($1, $2, $3, $4)',
+    [ date, time, is_available ,counselor_id], (error, results) => {
+    if (error) {
+      throw error
+    }
+    res.status(201).send(`schedule added with ID: ${results.insertId}`)
+  })
+};
 
 const updateSchedule = (req, res, next) => {
   const id = parseInt(req.params.id)
