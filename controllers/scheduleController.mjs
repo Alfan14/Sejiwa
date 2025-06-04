@@ -27,10 +27,13 @@ const createSchedule = (req, res) => {
   pool.query(
     'INSERT INTO schedules ( date, time, is_available ,counselor_id) VALUES ($1, $2, $3, $4)',
     [ date, time, is_available ,counselor_id], (error, results) => {
-    if (error) {
-      throw error
+    (error, results) => {
+      if (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Database error' });
+      }
+      res.status(201).send(`Schedule added with ID: ${results.rows[0].id}`);
     }
-    res.status(201).send(`schedule added with ID: ${results.insertId}`)
   })
 };
 
