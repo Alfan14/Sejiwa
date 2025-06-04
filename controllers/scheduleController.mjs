@@ -46,9 +46,10 @@ const updateSchedule = (req, res, next) => {
     [id, date, time, is_available ,counselor_id],
     (error, results) => {
       if (error) {
-        throw error
+        console.error('Database insert error:', error);
+        return res.status(500).json({ error: 'Database error' });
       }
-      res.status(200).send(`schedule modified with ID: ${id}`)
+      res.status(201).send(`Schedule added with ID: ${results.rows[0].id}`);
     }
   )
 };
