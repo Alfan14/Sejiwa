@@ -23,7 +23,7 @@ const getUsers = ( async (request, response) => {
   const createUser = (request, response) => {
     const { username, email , password , role } = request.body
   
-    pool.query(    'INSERT INTO users (username, email, password, role) VALUES ($1, $2, $3, $4)',
+    pool.query('INSERT INTO users (username, email, password, role) VALUES ($1, $2, $3, $4)',
       [username, email , password , role], (error, results) => {
       if (error) {
         throw error
