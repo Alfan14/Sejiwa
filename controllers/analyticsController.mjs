@@ -19,7 +19,7 @@ import pool from "../db/index.mjs";
     };
 
     const  totalAssessment = (req, res, next) => {
-    pool.query('SELECT COUNT(*) AS total_schedules FROM assessments', (error, results) => {
+    pool.query('SELECT COUNT(*) AS total_assessments FROM assessment_recommendations', (error, results) => {
             if (error) {
                 throw error
             }
