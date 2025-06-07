@@ -18,6 +18,16 @@ import pool from "../db/index.mjs";
         })
     };
 
+    const  schedulesCharts = (req, res, next) => {
+    pool.query('SELECT date::date AS schedule_date, COUNT(*) AS total_appointments FROM schedules GROUP BY date::date ORDER BY schedule_date ASC', (error, results) => {
+            if (error) {
+                throw error
+            }
+            res.status(200).json(results.rows)
+        })
+    };
+
+
     const  totalAssessment = (req, res, next) => {
     pool.query('SELECT COUNT(*) AS total_assessments FROM assessment_recommendations', (error, results) => {
             if (error) {
@@ -30,5 +40,6 @@ import pool from "../db/index.mjs";
     export default {
         totalUsers,
         totalSchedules,
-        totalAssessment
+        totalAssessment,
+        schedulesCharts
     }
