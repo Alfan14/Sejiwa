@@ -1,5 +1,5 @@
 import express from 'express';
-import db_analytics from '../../controllers/analyticsController';
+import db_analytics from '../../controllers/analyticsController.mjs';
 import  authMiddleware from '../../middlewares/authMiddleware.mjs';
 
 const { authenticate, authorize } = authMiddleware
