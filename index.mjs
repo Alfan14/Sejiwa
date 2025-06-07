@@ -8,13 +8,14 @@ import { fileURLToPath } from "url";
 import path from "path";
 
 // route
-import scheduleRoute from './routes/api/scheduleRoute.mjs';
 import assessmentRoutes from './routes/api/assesmentRoute.mjs';
+import analyticRoutes from './routes/api/analyticsRoute.mjs';
+import scheduleRoutes from './routes/api/scheduleRoute.mjs';
 import userRoutes from "./routes/api/userRoute.mjs"
 import authRoutes from './routes/api/authRoute.mjs';
 import bookingsRoutes from './routes/api/bookingsRoute.mjs';
 import consultationRoutes from './routes/api/consultationsRoute.mjs';
-import recomendationRoute from "./routes/api/recomendationRoute.mjs";
+import recomendationRoutes from "./routes/api/recomendationRoute.mjs";
 import initChatHandler from "./sockets/chatHandler.mjs";
 
 // Call dirname
@@ -57,10 +58,13 @@ app.use('/api/', consultationRoutes)
 app.use('/api/', assessmentRoutes)
 
 // Routes for the recomendation 
-app.use('/api',recomendationRoute)
+app.use('/api',recomendationRoutes)
 
 // Route for the schedule
-app.use('/api',scheduleRoute)
+app.use('/api',scheduleRoutes)
+
+// Route for the analytics
+app.use('/api',analyticRoutes)
 
 app.get("/",(req, res) => {
   res.sendFile(path.join(__dirname, "/index.html"));
