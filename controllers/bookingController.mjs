@@ -44,8 +44,7 @@ const updateBooking = (req, res, next) => {
       [schedule_id, student_id, status, created_at],
     );
     res.status(200).send(`Schedule modified with ID: ${id}`);
-  };
-  catch (error) {
+  } catch (error) {
     console.error('Database update error:', error.message);
     res.status(500).json({ error: 'Database error' });
   }
