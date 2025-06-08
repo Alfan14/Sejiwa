@@ -56,11 +56,11 @@ const submitAssessment = async (req, res) => {
 };
 
 const saveAssessmentAnswer = (req, res) =>{
-  const { student_id, question_code , submited_at } = req.body
+  const { student_id, question_code , submitted_at } = req.body
 
   pool.query(
     'INSERT INTO assessment_answers ( student_id, question_code , submited_at) VALUES ($1, $2, $3)',
-    [ student_id, question_code , submited_at], (error, results) => {
+    [ student_id, question_code , submitted_at], (error, results) => {
     if (error) {
       throw error
     }
