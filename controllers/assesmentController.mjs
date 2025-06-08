@@ -71,6 +71,6 @@ const saveAssessmentAnswer = (req, res) =>{
     
 export default {
   submitAssessment,
-  saveAssessmentAnswer,
+ saveAssessmentAnswer,
   getQuestions,
 }
