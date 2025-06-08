@@ -40,7 +40,7 @@ const updateBooking = (req, res, next) => {
 
   pool.query(
     'UPDATE bookings SET  schedule_id = $1 , student_id= $2 , status = $3 , created_at = $4 WHERE id = $6',
-    [id, schedule_id, student_id, status, created_at],
+    [schedule_id, student_id, status, created_at],
     (error, results) => {
       if (error) {
         throw error
