@@ -8,7 +8,7 @@ const router = express.Router()
 
 router.post('/assessment/submit', assessmentController.submitAssessment);
 router.get('/assessment/answer', assessmentController.saveAssessmentAnswer);
-router.get('/assessment/questions', assessmentController.getQuestions);
+router.post('/assessment/questions', assessmentController.getQuestions);
 
 export default router;
 
