@@ -1,8 +1,8 @@
 import pool from "../db/index.mjs";
 
 const getBookings = (req, res, next) => {
-    
-    pool.query('SELECT * FROM bookings ORDER BY id ASC', (error, results) => {
+
+  pool.query('SELECT * FROM bookings ORDER BY id ASC', (error, results) => {
     if (error) {
       throw error
     }
@@ -22,34 +22,34 @@ const getBookingById = (req, res, next) => {
 };
 
 const createBooking = (req, res) => {
-  const { schedule_id, student_id, status, created_at} = req.body
+  const { schedule_id, student_id, status, created_at } = req.body
 
   pool.query(
     'INSERT INTO bookings (schedule_id, student_id, status, created_at) VALUES ($1, $2, $3, $4)',
     [schedule_id, student_id, status, created_at], (error, results) => {
-    if (error) {
-      throw error
-    }
-    res.status(201).send(`Booking added with ID: ${results.insertId}`)
-  })
+      if (error) {
+        throw error
+      }
+      res.status(201).send(`Booking added with ID: ${results.insertId}`)
+    })
 };
 
 const updateBooking = (req, res, next) => {
   const id = parseInt(req.params.id)
-  const { schedule_id, student_id, status, created_at} = req.body
+  const { schedule_id, student_id, status, created_at } = req.body;
 
-  pool.query(
-    'UPDATE bookings SET  schedule_id = $1 , student_id= $2 , status = $3 , created_at = $4 WHERE id = $6',
-    [schedule_id, student_id, status, created_at],
-    (error, results) => {
-      if (error) {
-        throw error
-      }
-      res.status(200).send(`Booking modified with ID: ${id}`)
-    }
-  )
+  try {
+    await pool.query(
+      'UPDATE bookings SET  schedule_id = $1 , student_id= $2 , status = $3 , created_at = $4 WHERE id = $6',
+      [schedule_id, student_id, status, created_at],
+    );
+    res.status(200).send(`Schedule modified with ID: ${id}`);
+  };
+  catch (error) {
+    console.error('Database update error:', error.message);
+    res.status(500).json({ error: 'Database error' });
+  }
 };
-
 const deleteBooking = (req, res) => {
   const id = parseInt(req.params.id)
 
