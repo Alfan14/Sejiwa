@@ -41,7 +41,7 @@ const updateBooking = async (req, res, next) => {
   try {
     await pool.query(
       'UPDATE bookings SET  schedule_id = $1 , student_id= $2 , status = $3 , created_at = $4 WHERE id = $5',
-      [schedule_id, student_id, status, created_at],
+      [schedule_id, student_id, status, created_at ,id],
     );
     res.status(200).send(`Schedule modified with ID: ${id}`);
   } catch (error) {
