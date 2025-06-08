@@ -39,7 +39,7 @@ const updateBooking = (req, res, next) => {
   const { schedule_id, student_id, status, created_at} = req.body
 
   pool.query(
-    'UPDATE bookings SET id = $1, schedule_id = $2 , student_id= $3 , status = $4 , created_at = $5 WHERE id = $6',
+    'UPDATE bookings SET  schedule_id = $1 , student_id= $2 , status = $3 , created_at = $4 WHERE id = $6',
     [id, schedule_id, student_id, status, created_at],
     (error, results) => {
       if (error) {
