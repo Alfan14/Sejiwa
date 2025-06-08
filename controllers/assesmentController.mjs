@@ -54,8 +54,23 @@ const submitAssessment = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
     }
 };
+
+const saveAssessmentAnswer = (req, res) =>{
+  const { student_id, question_code , submited_at } = req.body
+
+  pool.query(
+    'INSERT INTO assessment_answers ( student_id, question_code , submited_at) VALUES ($1, $2, $3)',
+    [ student_id, question_code , submited_at], (error, results) => {
+    if (error) {
+      throw error
+    }
+    res.status(201).send(`student added with ID: ${results.insertId}`)
+  })
+};
+
     
 export default {
   submitAssessment,
+  saveAssessmentAnswer,
   getQuestions,
 }
