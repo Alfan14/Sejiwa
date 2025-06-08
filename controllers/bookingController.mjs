@@ -34,7 +34,7 @@ const createBooking = (req, res) => {
     })
 };
 
-const updateBooking = (req, res, next) => {
+const updateBooking = async (req, res, next) => {
   const id = parseInt(req.params.id)
   const { schedule_id, student_id, status, created_at } = req.body;
 
