@@ -24,11 +24,13 @@ const app = express();
 
 // Cors
 app.use(cors({
-  origin: process.env.ORIGIN,
+  origin: ['http://localhost:3000' ,  'http://sejiwa-frontend.vercel.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 }));
+
+app.options('*', cors()); 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
