@@ -14,6 +14,8 @@ router.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
+app.options('*', cors());
+
 router.post('/chats/rooms', authenticate, authorize(['pelajar','konselor']),db_room.createRoom)
 router.get('/chats/rooms', authenticate, authorize(['pelajar','konselor']),db_room.getRoom)
 router.get('/chats/rooms', authenticate, authorize(['pelajar','konselor']),db_room.getRoomById)
