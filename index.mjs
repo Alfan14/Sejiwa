@@ -38,7 +38,7 @@ app.use(cors());
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: '*',
+    origin: ['http://localhost:3000', 'https://sejiwa-frontend.vercel.app'],
     methods: ['GET', 'POST'],
   },
 });
