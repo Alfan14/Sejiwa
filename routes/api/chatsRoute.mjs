@@ -3,7 +3,6 @@ import db_room from '../../controllers/chatsController.mjs';
 import  authMiddleware from '../../middlewares/authMiddleware.mjs';
 import cors from "cors";
 
-
 const { authenticate, authorize } = authMiddleware
 
 const router = express.Router()
