@@ -33,7 +33,9 @@ const PORT = process.env.SERVER_PORT || 5000;
 const app = express();
 
 // Cors
-app.use(cors());
+app.use(cors({
+  origin: ' http://localhost:3000',
+}));
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
