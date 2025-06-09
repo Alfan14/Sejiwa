@@ -12,6 +12,7 @@ import assessmentRoutes from './routes/api/assesmentRoute.mjs';
 import analyticRoutes from './routes/api/analyticsRoute.mjs';
 import scheduleRoutes from './routes/api/scheduleRoute.mjs';
 import userRoutes from "./routes/api/userRoute.mjs";
+import roomRoutes from "./routes/api/roomsRoute.mjs";
 import authRoutes from './routes/api/authRoute.mjs';
 import bookingsRoutes from './routes/api/bookingsRoute.mjs';
 import consultationRoutes from './routes/api/consultationsRoute.mjs';
@@ -71,6 +72,9 @@ app.use('/api',scheduleRoutes)
 
 // Route for the analytics
 app.use('/api',analyticRoutes)
+
+// Route for the chat room
+app.use('/api',roomRoutes)
 
 app.get("/",(req, res) => {
   res.sendFile(path.join(__dirname, "/index.html"));
