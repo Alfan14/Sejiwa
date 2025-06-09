@@ -6,9 +6,9 @@ const { authenticate, authorize } = authMiddleware
 
 const router = express.Router()
 
-router.post('/chats', authenticate, authorize(['pelajar','konselor']),db_room.createRoom)
-router.get('/chats', authenticate, authorize(['pelajar','konselor']),db_room.getRoom)
-router.get('/chats', authenticate, authorize(['pelajar','konselor']),db_room.getRoomById)
+router.post('/chats/rooms', authenticate, authorize(['pelajar','konselor']),db_room.createRoom)
+router.get('/chats/rooms', authenticate, authorize(['pelajar','konselor']),db_room.getRoom)
+router.get('/chats/rooms', authenticate, authorize(['pelajar','konselor']),db_room.getRoomById)
 
 
 export default router;
