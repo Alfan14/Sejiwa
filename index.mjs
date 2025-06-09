@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import { createServer } from "http";
 import { fileURLToPath } from "url";
+import { Server } from "socket.io";
 import path from "path";
 
 // route
