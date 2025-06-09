@@ -28,7 +28,6 @@ dotenv.config();
 
 const upload = multer();
 
-// Initialize apps
 const PORT = process.env.SERVER_PORT || 5000;
 const app = express();
 const httpServer = createServer(app);
@@ -78,16 +77,14 @@ app.use('/api',analyticRoutes)
 app.use('/api',roomRoutes)
 
 app.get("/",(req, res) => {
-  res.sendFile(path.join(__dirname, "/index.html"));
+  res.send("This is the default Server Route");
 });
   
-// Global error handling
 app.use((err, req, res, next) => {
   console.error("Unhandled error:", err);
   res.status(500).send("Uh oh! An unexpected error occurred.");
 });
 
-// start the Express server
 httpServer.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
 });
