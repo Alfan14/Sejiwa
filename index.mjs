@@ -28,6 +28,9 @@ dotenv.config();
 
 const upload = multer();
 
+// Cors
+app.use(cors());
+
 const PORT = process.env.SERVER_PORT || 5000;
 const app = express();
 const httpServer = createServer(app);
@@ -45,9 +48,6 @@ app.use(express.json())
 
 // Uploading arrays
 app.use(upload.array()); 
-
-// Cors
-app.use(cors());
 
 // Users route
 app.use('/api/', userRoutes)
