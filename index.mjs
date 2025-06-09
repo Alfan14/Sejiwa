@@ -11,14 +11,13 @@ import path from "path";
 import assessmentRoutes from './routes/api/assesmentRoute.mjs';
 import analyticRoutes from './routes/api/analyticsRoute.mjs';
 import scheduleRoutes from './routes/api/scheduleRoute.mjs';
-import userRoutes from "./routes/api/userRoute.mjs"
+import userRoutes from "./routes/api/userRoute.mjs";
 import authRoutes from './routes/api/authRoute.mjs';
 import bookingsRoutes from './routes/api/bookingsRoute.mjs';
 import consultationRoutes from './routes/api/consultationsRoute.mjs';
 import recomendationRoutes from "./routes/api/recomendationRoute.mjs";
 import initChatHandler from "./sockets/chatHandler.mjs";
 
-// Call dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -31,7 +30,14 @@ const upload = multer();
 const PORT = process.env.SERVER_PORT || 5000;
 const app = express();
 const httpServer = createServer(app);
-initChatHandler(httpServer);
+const io = new Server(httpServer, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST'],
+  },
+});
+initChatHandler(io); 
+
 
 // Body parser middleware
 app.use(express.json())
