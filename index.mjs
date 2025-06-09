@@ -20,18 +20,6 @@ import consultationRoutes from './routes/api/consultationsRoute.mjs';
 import recomendationRoutes from "./routes/api/recomendationRoute.mjs";
 import initChatHandler from "./sockets/chatHandler.mjs";
 
-const app = express();
-
-// Cors
-app.use(cors({
-  origin: ['http://localhost:3000' ,  'http://sejiwa-frontend.vercel.app'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-}));
-
-app.options('*', cors()); 
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -40,7 +28,12 @@ dotenv.config();
 
 const upload = multer();
 
+
 const PORT = process.env.SERVER_PORT || 5000;
+const app = express();
+
+// Cors
+app.use(cors());
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
