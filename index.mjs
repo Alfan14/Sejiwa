@@ -28,11 +28,13 @@ dotenv.config();
 
 const upload = multer();
 
-// Cors
-app.use(cors());
 
 const PORT = process.env.SERVER_PORT || 5000;
 const app = express();
+
+// Cors
+app.use(cors());
+
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
