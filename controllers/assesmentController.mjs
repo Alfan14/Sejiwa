@@ -68,9 +68,23 @@ const saveAssessmentAnswer = (req, res) =>{
   })
 };
 
+const createSessions = (req, res) =>{
+  const { student_id,counselor_id, status , started_at , ended_at} = req.body
+
+  pool.query(
+    'INSERT INTO sessions ( student_id, counselor_id, status , started_at , ended_at) VALUES ($1, $2, $3, $4, $5)',
+    [ student_id,counselor_id, status , started_at , ended_at], (error, results) => {
+    if (error) {
+      throw error
+    }
+    res.status(201).send(`student added with ID: ${results.insertId}`)
+  })
+};
+
     
 export default {
   submitAssessment,
- saveAssessmentAnswer,
+  saveAssessmentAnswer,
   getQuestions,
+  createSessions,
 }

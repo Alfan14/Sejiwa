@@ -9,6 +9,8 @@ const router = express.Router()
 router.post('/assessment/submit', assessmentController.submitAssessment);
 router.post('/assessment/answer', assessmentController.saveAssessmentAnswer);
 router.get('/assessment/questions', assessmentController.getQuestions);
+router.post('/assessment/sessions', assessmentController.createSessions);
+
 
 export default router;
 
