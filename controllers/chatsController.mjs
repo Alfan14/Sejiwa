@@ -9,7 +9,9 @@ const createRoom = (req, res) => {
       if (error) {
         throw error
       }
-      res.status(201).send(`Room added with ID: ${results.insertId}`)
+      const insertedId = results.rows[0].id;
+
+      res.status(201).json({ id: insertedId })
     })
 };
 
