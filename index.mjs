@@ -13,7 +13,7 @@ import assessmentRoutes from './routes/api/assesmentRoute.mjs';
 import analyticRoutes from './routes/api/analyticsRoute.mjs';
 import scheduleRoutes from './routes/api/scheduleRoute.mjs';
 import userRoutes from "./routes/api/userRoute.mjs";
-import roomRoutes from "./routes/api/roomsRoute.mjs";
+import roomRoutes from "./routes/api/chatsRoute.mjs";
 import authRoutes from './routes/api/authRoute.mjs';
 import bookingsRoutes from './routes/api/bookingsRoute.mjs';
 import consultationRoutes from './routes/api/consultationsRoute.mjs';
