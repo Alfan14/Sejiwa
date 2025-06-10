@@ -29,7 +29,7 @@ const PORT = process.env.SERVER_PORT || 5000;
 const app = express();
 
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://sejiwa-frontend.vercel.app'],
+  origin: [process.env.ORIGIN, process.env.PROD_ORIGIN],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
@@ -40,7 +40,7 @@ app.options('*', cors(corsOptions));
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: ['http://localhost:3000', 'https://sejiwa-frontend.vercel.app'],
+    origin: [process.env.ORIGIN, process.env.PROD_ORIGIN],
     methods: ['GET', 'POST'],
     credentials: true,
   },
