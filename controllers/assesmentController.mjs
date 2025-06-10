@@ -11,12 +11,12 @@ const getQuestions = (req, res, next) => {
 };
 
 const submitAssessment = async (req, res) => {
-  const answers  = req.body;
+  const { answers } = req.body;
 
-  console.log("Jawaban answer:",answers)
+  console.log("Jawaban answer:", answers);
 
-  if (!answers || answers.length === 0) {
-    return res.status(400).json({ message: "Bad request" });
+  if (!Array.isArray(answers) || answers.length === 0) {
+    return res.status(400).json({ message: "Bad request: empty answers" });
   }
 
   try {
