@@ -37,7 +37,7 @@ const submitAssessment = async (req, res) => {
     const scoreMap = {};
     results.rows.forEach(row => {
       if (!scoreMap[row.recommendation_id]) {
-        scoreMap[row.recommendation_id] = 0;
+        scoreMap[row.recommendation_id] = { score: 0, codes: new Set() };
       }
       scoreMap[row.recommendation_id].score += row.weight;
       scoreMap[row.recommendation_id].codes.add(row.code);
