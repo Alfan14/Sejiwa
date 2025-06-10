@@ -1,19 +1,23 @@
 import pool from "../db/index.mjs";
 
 const createRoom = (req, res) => {
-  const { title , participants } = req.body
+  const { title, participants } = req.body;
 
   pool.query(
-    'INSERT INTO rooms (title , participants) VALUES ($1, $2)',
-    [title , participants], (error, results) => {
+    'INSERT INTO rooms (title, participants) VALUES ($1, $2) RETURNING id',
+    [title, participants],
+    (error, results) => {
       if (error) {
-        throw error
+        console.error('Database error:', error);
+        return res.status(500).json({ error: 'Failed to create room' });
       }
-      const insertedId = results.rows[0].id;
 
-      res.status(201).json({ id: insertedId })
-    })
+      const insertedId = results.rows[0].id;
+      res.status(201).json({ id: insertedId });
+    }
+  );
 };
+
 
 const getRoom = (req, res, next) => {
     
