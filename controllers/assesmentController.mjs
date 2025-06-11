@@ -11,6 +11,7 @@ const getQuestions = (req, res, next) => {
 };
 
 const submitAssessment = async (req, res) => {
+  console.log("Hallo dari submitAssessment")
   const { answers } = req.body;
 
   console.log("Jawaban answer:", answers);
