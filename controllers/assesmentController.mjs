@@ -1,6 +1,7 @@
 import pool from "../db/index.mjs";
 
 const getQuestions = (req, res, next) => {
+    console.log("Hallo dari gettingQuestions")
 
   pool.query('SELECT * FROM assessment_questions ORDER BY id ASC', (error, results) => {
     if (error) {
