@@ -34,6 +34,7 @@ const corsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization', 'session-id'],
   credentials: true,
 };
+
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
@@ -45,6 +46,7 @@ const io = new Server(httpServer, {
     credentials: true,
   },
 });
+console.log("Initializing chat handler...");
 initChatHandler(io);
 
 // Middleware

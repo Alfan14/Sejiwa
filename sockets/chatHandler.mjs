@@ -18,6 +18,8 @@ function getSessionIdFromHeaders(headers) {
 }
 
 function initChatHandler(io) {
+  console.log("Chat handler initialized...");
+
   io.on('connection', async (socket) => {
     const user = verifyTokenFromHeaders(socket.handshake.headers);
     if (!user) {
