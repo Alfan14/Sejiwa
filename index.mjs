@@ -31,7 +31,7 @@ const app = express();
 const corsOptions = {
   origin: [process.env.ORIGIN, process.env.PROD_ORIGIN],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'session-id'],
   credentials: true,
 };
 app.use(cors(corsOptions));
