@@ -1,3 +1,8 @@
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config(); 
+
 export function verifyTokenFromSocketAuth(auth) {
   const token = auth?.token;
   if (!token) return null;
@@ -8,3 +13,4 @@ export function verifyTokenFromSocketAuth(auth) {
     return null;
   }
 }
+
