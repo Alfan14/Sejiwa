@@ -43,19 +43,20 @@ function initChatHandler(io) {
     console.log(`User joined room: ${room}`);
 
     // Receive message from client
-    socket.on('chat-message', async ({ sender_id, message }) => {
+    socket.on('chat-message', async ({ sender_id,sender_role, message }) => {
       const timestamp = new Date();
 
       // 1. Save message to PostgreSQL
       await pool.query(
-        `INSERT INTO messages (session_id, sender_id, message, timestamp)
-         VALUES ($1, $2, $3, $4)`,
-        [parseInt(sessionId), sender_id, message, timestamp]
+        `INSERT INTO messages (session_id, sender_id, sender_role, message, timestamp)
+         VALUES ($1, $2, $3, $4, $5)`,
+        [parseInt(sessionId), sender_id,sender_role, message, timestamp]
       );
 
       // 2. Emit message to all in room
       io.to(room).emit('chat-message', {
         sender_id: user.userId,
+        sender_role,
         message,
         timestamp,
       });
