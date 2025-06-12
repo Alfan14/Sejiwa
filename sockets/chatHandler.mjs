@@ -1,4 +1,4 @@
-import { verifyTokenFromHeaders } from '../utils/auth.mjs';
+import {  verifyTokenFromSocketAuth } from '../utils/auth.mjs';
 import dotenv from 'dotenv';
 import pg from 'pg';
 
