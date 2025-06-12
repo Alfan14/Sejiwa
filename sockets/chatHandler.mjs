@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import pg from 'pg';
 
 const Pool = pg.Pool;
-dotenv.config(); 
+dotenv.config();
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -21,16 +21,21 @@ function initChatHandler(io) {
   console.log("Chat handler initialized...");
 
   io.on('connection', async (socket) => {
-    const user = verifyTokenFromHeaders(socket.handshake.headers);
+    console.log("Incoming socket connection...");
+
+    const user = verifyTokenFromSocketAuth(socket.handshake.auth);
     if (!user) {
       console.log('Unauthorized socket connection');
       return socket.disconnect();
     }
+
     console.log('Authorized socket connection from user:', user.userId);
 
-    const sessionId = getSessionIdFromHeaders(socket.handshake.headers);
-    if (!sessionId) return;
-
+    const sessionId = socket.handshake.auth.sessionId;
+    if (!sessionId) {
+      console.log("No session ID provided");
+      return;
+    }
     const room = `session-${sessionId}`;
     console.log(`Received sessionId:${sessionId}`)
     socket.join(room);

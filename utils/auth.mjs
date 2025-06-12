@@ -1,10 +1,5 @@
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-
-dotenv.config(); 
-
-export function verifyTokenFromHeaders(headers) {
-  const token = headers.authorization?.split(' ')[1];
+export function verifyTokenFromSocketAuth(auth) {
+  const token = auth?.token;
   if (!token) return null;
 
   try {
