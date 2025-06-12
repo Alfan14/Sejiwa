@@ -40,6 +40,7 @@ app.options('*', cors(corsOptions));
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
+  path: "/socket.io",
   cors: {
     origin: [process.env.ORIGIN, process.env.PROD_ORIGIN],
     methods: ['GET', 'POST'],
