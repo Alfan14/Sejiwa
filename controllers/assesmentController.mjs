@@ -85,7 +85,6 @@ const submitAssessment = async (req, res) => {
   }
 };
 
-
 const saveAssessmentAnswer = (req, res) => {
   const { student_id, question_code, submitted_at } = req.body
 

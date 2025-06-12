@@ -36,7 +36,8 @@ function initChatHandler(io) {
       console.log("No session ID provided");
       return;
     }
-    const room = `session-${sessionId}`;
+
+    const room = sessionId;
     console.log(`Received sessionId:${sessionId}`)
     socket.join(room);
     console.log(`User joined room: ${room}`);
@@ -49,7 +50,7 @@ function initChatHandler(io) {
       await pool.query(
         `INSERT INTO messages (session_id, sender_id, message, timestamp)
          VALUES ($1, $2, $3, $4)`,
-        [sessionId, sender_id, message, timestamp]
+        [parseInt(sessionId), sender_id, message, timestamp]
       );
 
       // 2. Emit message to all in room
