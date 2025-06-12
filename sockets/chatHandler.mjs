@@ -30,6 +30,7 @@ function initChatHandler(io) {
     if (!sessionId) return;
 
     const room = `session-${sessionId}`;
+    console.log(`Received sessionId:${sessionId}`)
     socket.join(room);
     console.log(`User joined room: ${room}`);
 
