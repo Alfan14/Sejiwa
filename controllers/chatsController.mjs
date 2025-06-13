@@ -1,11 +1,11 @@
 import pool from "../db/index.mjs";
 
 const createRoom = (req, res) => {
-  const { title, participants } = req.body;
+  const { title, student_id } = req.body;
 
   pool.query(
-    'INSERT INTO rooms (title, participants) VALUES ($1, $2) RETURNING id',
-    [title, participants],
+    'INSERT INTO rooms (title, student_id) VALUES ($1, $2) RETURNING id',
+    [title, student_id],
     (error, results) => {
       if (error) {
         console.error('Database error:', error);
