@@ -28,12 +28,16 @@ const upload = multer();
 const PORT = process.env.SERVER_PORT || 5000;
 const app = express();
 
+const allowedOrigins = [process.env.ORIGIN, process.env.PROD_ORIGIN];
+
 const corsOptions = {
   origin: [process.env.ORIGIN, process.env.PROD_ORIGIN],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'session-id'],
   credentials: true,
 };
+
+console.log('Allowed origins:', allowedOrigins);
 
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
