@@ -63,7 +63,7 @@ const { email, password } = req.body;
     //  generate token with the user's id and the secretKey in the env file
 
      if (isSame) {
-       let token = jwt.sign({ id: user.id, email: user.email, role: user.role }, SECRET_KEY, {
+       let token = jwt.sign({ id: user.id,username: user.username, email: user.email, role: user.role }, SECRET_KEY, {
         expiresIn: '1d',
         });
 
