@@ -37,21 +37,21 @@ const createSchedule = (req, res) => {
   );
 };
 
-const updateSchedule = async (req, res) => {
-  const id = parseInt(req.params.id);
+const updateScheduleByCounselorId = async (req, res) => {
   const { date, time, is_available, counselor_id } = req.body;
 
   try {
     await pool.query(
-      'UPDATE schedules SET date = $1, time = $2, is_available = $3, counselor_id = $4 WHERE id = $5',
-      [date, time, is_available, counselor_id, id]
+      'UPDATE schedules SET date = $1, time = $2, is_available = $3 WHERE counselor_id = $4',
+      [date, time, is_available, counselor_id]
     );
-    res.status(200).send(`Schedule modified with ID: ${id}`);
+    res.status(200).send(`Schedule modified for counselor ID: ${counselor_id}`);
   } catch (error) {
     console.error('Database update error:', error.message);
     res.status(500).json({ error: 'Database error' });
   }
 };
+
 
 
 const deleteSchedule = (req, res) => {
@@ -69,6 +69,6 @@ export default {
   getSchedules,
   getScheduleById,
   createSchedule,
-  updateSchedule,
+  updateScheduleByCounselorId,
   deleteSchedule,
 }

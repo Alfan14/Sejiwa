@@ -6,7 +6,6 @@ import db from "../models/index.mjs";
   // Calling a secret key
 const SECRET_KEY = process.env.SECRET_KEY ;
 
-
   // Assigning users to the variable User
 const User = db.users;
 
