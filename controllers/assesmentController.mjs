@@ -86,6 +86,9 @@ const submitAssessment = async (req, res) => {
 };
 
 const saveAssessmentAnswer = (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', '*');
+
   const { student_id, question_code, submitted_at } = req.body
 
   pool.query(
