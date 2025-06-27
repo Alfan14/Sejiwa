@@ -8,8 +8,8 @@ const router = express.Router()
 
 router.get('/users', authenticate, authorize(['admin','konselor','pelajar']),db.getUsers)
 router.get('/users/:id', authenticate, authorize(['admin','konselor','pelajar']),db.getUserById)
-router.post('/users', authenticate, authorize(['admin']),db.createUser)
-router.put('/users/:id', authenticate, authorize(['admin']),db.updateUser)
-router.delete('/users/:id', authenticate, authorize(['admin']),db.deleteUser)
+router.post('/users', authenticate, authorize(['admin','konselor','pelajar']),db.createUser)
+router.put('/users/:id', authenticate, authorize(['admin','konselor','pelajar']),db.updateUser)
+router.delete('/users/:id', authenticate, authorize(['admin','konselor','pelajar']),db.deleteUser)
 
 export default router;
