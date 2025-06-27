@@ -101,6 +101,15 @@ const saveAssessmentAnswer = (req, res) => {
     })
 };
 
+const getAssessmentAnswer = ( async (request, response) => {
+    pool.query('SELECT * FROM  assessment_answers  ORDER BY id ASC', (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+  });
+
 const createSessions = (req, res) => {
   const { student_id, counselor_id, status, started_at, ended_at } = req.body
 
@@ -117,6 +126,7 @@ const createSessions = (req, res) => {
 
 export default {
   submitAssessment,
+  getAssessmentAnswer,
   saveAssessmentAnswer,
   getQuestions,
   createSessions,
