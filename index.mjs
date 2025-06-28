@@ -9,6 +9,7 @@ import path from "path";
 
 // route
 import assessmentRoutes from './routes/api/assesmentRoute.mjs';
+import  clodinaryControllers from './controllers/cloudinaryControllers.mjs';
 import analyticRoutes from './routes/api/analyticsRoute.mjs';
 import scheduleRoutes from './routes/api/scheduleRoute.mjs';
 import userRoutes from "./routes/api/userRoute.mjs";
@@ -66,6 +67,7 @@ app.use('/api', recomendationRoutes);
 app.use('/api', scheduleRoutes);
 app.use('/api', analyticRoutes);
 app.use('/api', roomRoutes);
+app.user('/api',clodinaryControllers);
 
 app.get("/", (req, res) => {
   res.send("This is the default Server Route");
