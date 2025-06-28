@@ -13,12 +13,13 @@ const User = db.users;
   //  hashing users password before its saved to the database with bcrypt
 const register = async (req, res) => {
  try {
-   const { username, email, password , role } = req.body;
+   const { username, email, password , role , profile_picture } = req.body;
    const data = {
      username,
      email,
      password: await bcrypt.hash(password, 10),
-     role
+     role,
+     profile_picture
    };
    // saving the user
    const user = await User.create(data);
