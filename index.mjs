@@ -9,7 +9,7 @@ import path from "path";
 
 // route
 import assessmentRoutes from './routes/api/assesmentRoute.mjs';
-import  clodinaryControllers from './controllers/cloudinaryControllers.mjs';
+import clodinaryControllers from './controllers/cloudinaryControllers.mjs';
 import analyticRoutes from './routes/api/analyticsRoute.mjs';
 import scheduleRoutes from './routes/api/scheduleRoute.mjs';
 import userRoutes from "./routes/api/userRoute.mjs";
