@@ -63,11 +63,11 @@ app.use('/api/', authRoutes);
 app.use('/api/', bookingsRoutes);
 app.use('/api/', consultationRoutes);
 app.use('/api/', assessmentRoutes);
-app.use('/api', recomendationRoutes);
-app.use('/api', scheduleRoutes);
-app.use('/api', analyticRoutes);
-app.use('/api', roomRoutes);
-app.user('/api',clodinaryControllers);
+app.use('/api',  recomendationRoutes);
+app.use('/api',  scheduleRoutes);
+app.use('/api',  analyticRoutes);
+app.use('/api',  roomRoutes);
+app.use('/api',  clodinaryControllers);
 
 app.get("/", (req, res) => {
   res.send("This is the default Server Route");
