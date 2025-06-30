@@ -21,9 +21,9 @@ const getUsers = ( async (request, response) => {
   }
   
   const createUser = (request, response) => {
-    const { username, email , password , role } = request.body
+    const { username, email , password , role , profile_picture } = request.body
   
-    pool.query('INSERT INTO users (username, email, password, role) VALUES ($1, $2, $3, $4)',
+    pool.query('INSERT INTO users (username, email, password, role , profile_picture) VALUES ($1, $2, $3, $4, $5)',
       [username, email , password , role], (error, results) => {
       if (error) {
         throw error
@@ -34,10 +34,10 @@ const getUsers = ( async (request, response) => {
   
   const updateUser = (request, response) => {
     const id = parseInt(request.params.id)
-    const { username, email , password , role} = request.body
+    const { username, email , password , role } = request.body
   
     pool.query(
-      'UPDATE users SET username = $1, email = $2 , password = $3 , role = $4 WHERE id = $5',
+      'UPDATE users SET username = $1, email = $2 , password = $3 , role = $4 , profile_picture = $5 WHERE id = $6',
       [username, email, password , role , id],
       (error, results) => {
         if (error) {
