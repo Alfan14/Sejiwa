@@ -34,11 +34,11 @@ const getUsers = ( async (request, response) => {
   
   const updateUser = (request, response) => {
     const id = parseInt(request.params.id)
-    const { username, email , password , role } = request.body
+    const { username, email , password , role, profile_picture } = request.body
   
     pool.query(
       'UPDATE users SET username = $1, email = $2 , password = $3 , role = $4 , profile_picture = $5 WHERE id = $6',
-      [username, email, password , role , id],
+      [username, email, password , role , profile_picture, id],
       (error, results) => {
         if (error) {
           throw error
