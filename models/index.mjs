@@ -2,7 +2,13 @@
 import {Sequelize, DataTypes} from 'sequelize';
 import userModel from '../models/userModel.mjs'; 
 import dotenv from 'dotenv';
+import pg from 'pg';
+
 dotenv.config();
+
+const Pool = pg.Pool
+
+dotenv.config(); 
 
 const DATABASE_URL = process.env.DATABASE_URL
 
@@ -19,9 +25,8 @@ const sequelize = new Sequelize(DATABASE_URL, {
   },
 });
 
-//checking if connection is done
     sequelize.authenticate().then(() => {
-        console.log(`Database connected to discover`)
+        console.log(`Database connected`)
     }).catch((err) => {
         console.log(err)
     })
@@ -30,8 +35,6 @@ const sequelize = new Sequelize(DATABASE_URL, {
     db.Sequelize = Sequelize
     db.sequelize = sequelize
 
-//connecting to model
 db.users = userModel(sequelize, DataTypes)
 
-//exporting the module
 export default db
