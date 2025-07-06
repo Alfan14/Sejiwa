@@ -24,7 +24,6 @@ const submitAssessment = async (req, res) => {
   try {
     // Ambil kode emosi dari semua answer
     const answerCodes = answers.map(a => a.code);
-    console.log("Jawaban Code:", answerCodes);
 
     // 1. Ambil mapping dari database berdasarkan kode emosi
     const results = await pool.query(
@@ -35,7 +34,6 @@ const submitAssessment = async (req, res) => {
       [answerCodes]
     );
 
-    console.log("Results:",results);
 
     // 2. Akumulasi skor berdasarkan recommendation_id
     const scoreMap = {};
@@ -47,15 +45,12 @@ const submitAssessment = async (req, res) => {
       scoreMap[row.recommendation_id].answers.add(row.code);
     });
 
-    console.log("Akumulasi Skore",scoreMap)
 
     // 3. Buat mapping dari code ke intensity
     const codeToIntensity = {};
     answers.forEach(ans => {
       codeToIntensity[ans.code] = ans.intensity;
     });
-
-    console.log("Mapping dari code intensity", codeToIntensity)
 
     // 4. Tipe konten berdasarkan intensitas
     const intensityToType = {
@@ -77,15 +72,11 @@ const submitAssessment = async (req, res) => {
       .sort((a, b) => b[1].score - a[1].score)
       .map(([id]) => parseInt(id));
     
-    console.log("Hasil Filter Rekomendasi:",filteredIds)
-
     // 6. Ambil detail rekomendasi berdasarkan ID
     const recommendationDetails = await pool.query(
       `SELECT * FROM recommendations WHERE id = ANY($1)`,
       [filteredIds]
     );
-
-    console.log("Rekomendasi Detail ",recommendationDetails)
 
     res.status(200).json({ recommendations: recommendationDetails.rows });
 
