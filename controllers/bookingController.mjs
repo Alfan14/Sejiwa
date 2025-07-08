@@ -25,7 +25,7 @@ const createBooking = (req, res) => {
   const { schedule_id, student_id, counselor_id , status, created_at } = req.body
 
   pool.query(
-    'INSERT INTO bookings (schedule_id, student_id, counselor_id, status, created_at) VALUES ($1, $2, $3, $4)',
+    'INSERT INTO bookings (schedule_id, student_id, counselor_id, status, created_at) VALUES ($1, $2, $3, $4, $5)',
     [schedule_id, student_id, counselor_id, status, created_at], (error, results) => {
       if (error) {
         throw error
