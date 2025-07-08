@@ -1,4 +1,5 @@
 import pool from "../db/index.mjs";
+import bcrypt from "bcrypt";
 
 const getUsers = ( async (request, response) => {
     pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
@@ -35,10 +36,11 @@ const getUsers = ( async (request, response) => {
   const updateUser = (request, response) => {
     const id = parseInt(request.params.id)
     const { username, email , password , role, profile_picture } = request.body
+    const passwordHash =  await bcrypt.hash(password, 10),
   
     pool.query(
       'UPDATE users SET username = $1, email = $2 , password = $3 , role = $4 , profile_picture = $5 WHERE id = $6',
-      [username, email, password , role , profile_picture, id],
+      [username, email, passwordHash , role , profile_picture, id],
       (error, results) => {
         if (error) {
           throw error
