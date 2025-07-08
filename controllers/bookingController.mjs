@@ -22,7 +22,7 @@ const getBookingById = (req, res, next) => {
 };
 
 const createBooking = (req, res) => {
-  const { schedule_id, student_id, counselor_id status, created_at } = req.body
+  const { schedule_id, student_id, counselor_id , status, created_at } = req.body
 
   pool.query(
     'INSERT INTO bookings (schedule_id, student_id, counselor_id, status, created_at) VALUES ($1, $2, $3, $4)',
