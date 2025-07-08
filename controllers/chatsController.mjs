@@ -1,5 +1,7 @@
 import pool from "../db/index.mjs";
 
+// update
+
 const createRoom = (req, res) => {
   const { title, student_id , counselor_id} = req.body;
 
