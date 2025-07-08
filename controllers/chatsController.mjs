@@ -1,7 +1,6 @@
 import pool from "../db/index.mjs";
 
-// update
-
+// cors issue
 const createRoom = (req, res) => {
   const { title, student_id , counselor_id } = req.body;
 
