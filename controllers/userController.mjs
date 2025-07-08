@@ -31,12 +31,12 @@ const getUsers = ( async (request, response) => {
       }
       response.status(201).send(`User added with ID: ${results.insertId}`)
     })
-  }
+  };
   
-  const updateUser = (request, response) => {
+  const updateUser = ( async (request, response) => {
     const id = parseInt(request.params.id)
     const { username, email , password , role, profile_picture } = request.body
-    const passwordHash =  await bcrypt.hash(password, 10),
+    const passwordHash =  t bcrypt.hash(password, 10),
   
     pool.query(
       'UPDATE users SET username = $1, email = $2 , password = $3 , role = $4 , profile_picture = $5 WHERE id = $6',
@@ -48,7 +48,7 @@ const getUsers = ( async (request, response) => {
         response.status(200).send(`User modified with ID: ${id}`)
       }
     )
-  }
+  });
   
   const deleteUser = (request, response) => {
     const id = parseInt(request.params.id)
