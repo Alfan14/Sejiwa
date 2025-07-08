@@ -7,7 +7,7 @@ const createRoom = (req, res) => {
 
   pool.query(
     'INSERT INTO rooms (title, student_id ,counselor_id) VALUES ($1, $2 , $3) RETURNING id',
-    [title, student_id],
+    [title, student_id, counselor_id],
     (error, results) => {
       if (error) {
         console.error('Database error:', error);
