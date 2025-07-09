@@ -10,7 +10,7 @@ router.get('/users', authenticate, authorize(['admin','konselor','pelajar']),db.
 router.get('/users/:id', authenticate, authorize(['admin','konselor','pelajar']),db.getUserById)
 router.post('/users', authenticate, authorize(['admin','konselor','pelajar']),db.createUser)
 router.put('/users/:id', authenticate, authorize(['admin','konselor','pelajar']),db.updateUser)
-router.patch('/users/:id', authenticate, authorize(['admin','konselor','pelajar']),db.updateUser)
+router.patch('/users/:id', authenticate, authorize(['admin','konselor','pelajar']),db.patchUser)
 router.delete('/users/:id', authenticate, authorize(['admin','konselor','pelajar']),db.deleteUser)
 
 export default router;
