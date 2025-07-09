@@ -32,7 +32,7 @@ const allowedOrigins = [process.env.ORIGIN, process.env.PROD_ORIGIN];
 
 const corsOptions = {
   origin: [process.env.ORIGIN, process.env.PROD_ORIGIN],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'session-id'],
   credentials: true,
 };
