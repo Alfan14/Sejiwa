@@ -34,6 +34,52 @@ const createBooking = (req, res) => {
     })
 };
 
+const patchUser = async (request, response) => {
+    const id = parseInt(request.params.id);
+    const {  schedule_id, student_id, counselor_id , status, created_at } = request.body;
+
+    const fields = [];
+    const values = [];
+    let valueIndex = 1;
+
+    if (schedule_id) {
+      fields.push(`schedule_id = $${valueIndex++}`);
+      values.push(schedule_id);
+    }
+    if (student_id) {
+      fields.push(`student_id = $${valueIndex++}`);
+      values.push(student_id);
+    }
+    if (counselor_id) {
+      fields.push(`counselor_id = $${valueIndex++}`);
+      values.push(counselor_id);
+    }
+    if (status) {
+      fields.push(`status = $${valueIndex++}`);
+      values.push(status);
+    }
+    if (created_at) {
+      fields.push(`created_at = $${valueIndex++}`);
+      values.push(created_at);
+    }
+
+    if (fields.length === 0) {
+      return response.status(400).json({ message: "No fields to update." });
+    }
+
+    values.push(id);
+    const query = `UPDATE bookings SET ${fields.join(', ')} WHERE id = $${valueIndex}`;
+
+    pool.query(query, values, (error, results) => {
+      if (error) {
+        return response.status(500).json({ message: "Update failed.", error });
+      }
+      response.status(200).send(`Booking with ID: ${id} patched.`);
+    });
+  };
+
+
+
 const updateBooking = async (req, res, next) => {
   const id = parseInt(req.params.id)
   const { schedule_id, student_id, counselor_id, status, created_at } = req.body;
