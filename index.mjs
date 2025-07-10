@@ -28,10 +28,10 @@ dotenv.config();
 const PORT = process.env.SERVER_PORT || 5000;
 const app = express();
 
-const allowedOrigins = [process.env.ORIGIN, process.env.PROD_ORIGIN];
+const allowedOrigins = [ process.env.PROD_ORIGIN , process.env.ORIGIN];
 
 const corsOptions = {
-  origin: [process.env.ORIGIN, process.env.PROD_ORIGIN],
+  origin: [process.env.PROD_ORIGIN , process.env.ORIGIN],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'session-id'],
   credentials: true,
