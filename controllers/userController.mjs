@@ -51,7 +51,6 @@ const updateUser = (async (request, response) => {
   )
 });
 
-// For PATCH method
  const patchUser = async (request, response) => {
     const id = parseInt(request.params.id);
     const { username, email, password, role, profile_picture } = request.body;
