@@ -7,13 +7,13 @@ const { register, login , refreshAccessToken} = authController
 
 const router = express.Router()
 
-//signup endpoint
-//passing the middleware function to the signup
+// signup endpoint
 router.post('/signup', userAuth.saveUser, register)
 
-//login route
+//login endpoint
 router.post('/login', login )
 
+// refresh token endpoint
 router.post('/refresh', refreshAccessToken )
 
 

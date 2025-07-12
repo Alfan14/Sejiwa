@@ -36,6 +36,7 @@ const register = async (req, res) => {
     console.log(error);
   }
 };
+
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -92,9 +93,8 @@ const login = async (req, res) => {
   }
 };
 
-
 const refreshAccessToken = async (req, res) => {
-  const refreshToken = req.cookies['refreshToken'];
+  const refreshToken = req.body.refresh_token; 
 
   if (!refreshToken) {
     return res.status(401).json({ message: "Access Denied. No refresh token provided." });
@@ -118,8 +118,7 @@ const refreshAccessToken = async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    return res.status(200).json({ accessToken: newAccessToken });
-
+    return res.status(200).json({ access_token: newAccessToken }); 
   } catch (error) {
     console.error("Refresh token error:", error);
     if (error.name === 'TokenExpiredError') {
@@ -128,7 +127,6 @@ const refreshAccessToken = async (req, res) => {
     return res.status(400).json({ message: "Invalid refresh token." });
   }
 };
-
 
 export default {
   register,
