@@ -38,45 +38,55 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-    try {
-        const db = await getDatabase();
-        let collection = await db.collection("users");
+  try {
+    const { email, password } = req.body;
 
-        const { email, password } = req.body;  
-
-        if (!SECRET_KEY) {
-            console.error(" SECRET_KEY is undefined! Make sure .env is loaded.");
-            return res.status(500).send("Server error: Missing SECRET_KEY");
-        }
-
-        if (!email || !password) {
-            return res.status(400).send('Email and password are required');
-        }
-
-        const user = await collection.findOne({ email });
-
-        if (!user) {
-            return res.status(401).send('Invalid credentials');
-        }
-
-        const passwordMatch = bcrypt.compareSync(password, user.password);
-
-        if (!passwordMatch) {
-            return res.status(401).send('Invalid credentials');
-        }
-
-        console.log("SIGNING SECRET:", process.env.SECRET_KEY); 
-
-        const token = jwt.sign({ id: user.id,id: user.username , email: user.email, role: user.role, profile_picture: user.profile_picture}, SECRET_KEY, { algorithm: "HS256", expiresIn: '1h' });
-
-        console.log("Generated Token:", token);
-
-        res.json({ token });
-        console.log("Received data:", req.body);
-    } catch (err) {
-        console.error('Error during signin:', err);
-        res.status(500).send('Error while processing the request');
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password are required." });
     }
+
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      return res.status(401).json({ message: "Invalid credentials." });
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordCorrect) {
+      return res.status(401).json({ message: "Invalid credentials." });
+    }
+
+    const token = jwt.sign(
+      { id: user.id, username: user.username, email: user.email, role: user.role },
+      SECRET_KEY,
+      { expiresIn: '1h' }
+    );
+
+    
+
+    const refreshToken = jwt.sign(
+      { id: user.id },
+      SECRET_KEY,
+      { expiresIn: '7d' }
+    );
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+
+    return res.status(200).json({
+      message: "Login successful.",
+      token: token,
+    });
+
+  } catch (error) {
+    console.error("Login error:", error);
+    return res.status(500).json({ message: "Internal server error." });
+  }
 };
 
 const refreshtoken = async (req, res) => {
