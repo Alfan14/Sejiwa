@@ -133,5 +133,5 @@ const refreshAccessToken = async (req, res) => {
 export default {
   register,
   login,
-  refreshToken,
+  refreshAccessToken,
 };
