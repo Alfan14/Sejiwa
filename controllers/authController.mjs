@@ -57,7 +57,7 @@ const login = async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials." });
     }
 
-    const accessToken = jwt.sign(
+    const token = jwt.sign(
       { id: user.id, username: user.username, email: user.email, role: user.role },
       SECRET_KEY,
       { expiresIn: '1h' }
@@ -78,7 +78,7 @@ const login = async (req, res) => {
 
     return res.status(200).json({
       message: "Login successful.",
-      accessToken: accessToken,
+      token: token,
       user: {
         id: user.id,
         username: user.username,
@@ -93,7 +93,7 @@ const login = async (req, res) => {
   }
 };
 
-const refreshAccessToken = async (req, res) => {
+const refreshtoken = async (req, res) => {
   const refreshToken = req.body.refresh_token; 
 
   if (!refreshToken) {
@@ -112,13 +112,13 @@ const refreshAccessToken = async (req, res) => {
       return res.status(401).json({ message: "User not found." });
     }
 
-    const newAccessToken = jwt.sign(
+    const newtoken = jwt.sign(
       { id: user.id, username: user.username, email: user.email, role: user.role },
       SECRET_KEY,
       { expiresIn: '1h' }
     );
 
-    return res.status(200).json({ access_token: newAccessToken }); 
+    return res.status(200).json({ access_token: newtoken }); 
   } catch (error) {
     console.error("Refresh token error:", error);
     if (error.name === 'TokenExpiredError') {
@@ -131,5 +131,5 @@ const refreshAccessToken = async (req, res) => {
 export default {
   register,
   login,
-  refreshAccessToken,
+  refreshtoken,
 };
