@@ -8,93 +8,124 @@ const SECRET_KEY = process.env.SECRET_KEY;
 const User = db.users;
 
 const register = async (req, res) => {
- try {
-   const { username, email, password , role , profile_picture } = req.body;
-   const data = {
-     username,
-     email,
-     password: await bcrypt.hash(password, 10),
-     role,
-     profile_picture 
-   };
-
-   const user = await User.create(data);
-
-   if (user) {
-     let token = jwt.sign({ id: user.id },SECRET_KEY, {
-       expiresIn: 1 * 24 * 60 * 60 * 1000,
-     });
-
-     res.cookie("jwt", token, { maxAge: 1 * 24 * 60 * 60, httpOnly: true });
-     console.log("user", JSON.stringify(user, null, 2));
-     console.log(token);
-     return res.status(201).send(user);
-   } else {
-     return res.status(409).send("Details are not correct");
-   }
- } catch (error) {
-   console.log(error);
- }
-};
-
-//  login authentication
-const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { username, email, password, role, profile_picture } = req.body;
+    const data = {
+      username,
+      email,
+      password: await bcrypt.hash(password, 10),
+      role,
+      profile_picture
+    };
 
-    //  find a user by their email
-    const user = await User.findOne({
-      where: {
-        email: email
-      }
+    const user = await User.create(data);
 
-    });
-
-    // if user email is found, compare password with bcrypt
     if (user) {
-      const isSame = await bcrypt.compare(password, user.password);
+      let token = jwt.sign({ id: user.id }, SECRET_KEY, {
+        expiresIn: 1 * 24 * 60 * 60 * 1000,
+      });
 
-      //  if password is the same
-      //  generate token with the user's id and the secretKey in the env file
-
-      if (isSame) {
-        let token = jwt.sign({ id: user.id, username: user.username, email: user.email, role: user.role }, SECRET_KEY, {
-          expiresIn: '1d',
-        });
-
-        //if password matches wit the one in the database
-        //go ahead and generate a cookie for the user
-        res.cookie("jwt", token, { maxAge: 1 * 24 * 60 * 60, httpOnly: true });
-        console.log("user", JSON.stringify(user, null, 2));
-        console.log(token);
-        //send user data
-        return res.status(200).send(token);
-      } else {
-        return res.status(401).send("Authentication failed");
-      }
+      res.cookie("jwt", token, { maxAge: 1 * 24 * 60 * 60, httpOnly: true });
+      console.log("user", JSON.stringify(user, null, 2));
+      console.log(token);
+      return res.status(201).send(user);
     } else {
-      return res.status(401).send("Authentication failed");
+      return res.status(409).send("Details are not correct");
     }
   } catch (error) {
     console.log(error);
   }
 };
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-const refreshToken = async (req, res) => {
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password are required." });
+    }
+
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      return res.status(401).json({ message: "Invalid credentials." });
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordCorrect) {
+      return res.status(401).json({ message: "Invalid credentials." });
+    }
+
+    const accessToken = jwt.sign(
+      { id: user.id, username: user.username, email: user.email, role: user.role },
+      SECRET_KEY,
+      { expiresIn: '1h' }
+    );
+
+    const refreshToken = jwt.sign(
+      { id: user.id },
+      SECRET_KEY,
+      { expiresIn: '7d' }
+    );
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+
+    return res.status(200).json({
+      message: "Login successful.",
+      accessToken: accessToken,
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      }
+    });
+
+  } catch (error) {
+    console.error("Login error:", error);
+    return res.status(500).json({ message: "Internal server error." });
+  }
+};
+
+
+const refreshAccessToken = async (req, res) => {
   const refreshToken = req.cookies['refreshToken'];
+
   if (!refreshToken) {
-    return res.status(401).send('Access Denied. No refresh token provided.');
+    return res.status(401).json({ message: "Access Denied. No refresh token provided." });
   }
 
   try {
-    const decoded = jwt.verify(refreshToken, secretKey);
-    const accessToken = jwt.sign({ user: decoded.user }, secretKey, { expiresIn: '1h' });
+    const decoded = jwt.verify(refreshToken, SECRET_KEY);
 
-    res
-      .header('Authorization', accessToken)
-      .send(decoded.user);
+    if (!decoded.id) {
+      return res.status(400).json({ message: "Invalid refresh token payload." });
+    }
+
+    const user = await User.findByPk(decoded.id);
+    if (!user) {
+      return res.status(401).json({ message: "User not found." });
+    }
+
+    const newAccessToken = jwt.sign(
+      { id: user.id, username: user.username, email: user.email, role: user.role },
+      SECRET_KEY,
+      { expiresIn: '1h' }
+    );
+
+    return res.status(200).json({ accessToken: newAccessToken });
+
   } catch (error) {
-    return res.status(400).send('Invalid refresh token.');
+    console.error("Refresh token error:", error);
+    if (error.name === 'TokenExpiredError') {
+      return res.status(401).json({ message: "Refresh token expired. Please login again." });
+    }
+    return res.status(400).json({ message: "Invalid refresh token." });
   }
 };
 
