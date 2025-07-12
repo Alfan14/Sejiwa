@@ -3,7 +3,7 @@ import express from 'express';
 import authController from '../../controllers/authController.mjs';
 import userAuth from '../../middlewares/userAuth.mjs';
 
-const { register, login } = authController
+const { register, login , refreshToken} = authController
 
 const router = express.Router()
 
@@ -13,5 +13,8 @@ router.post('/signup', userAuth.saveUser, register)
 
 //login route
 router.post('/login', login )
+
+router.post('/refresh', refreshToken )
+
 
 export default router
