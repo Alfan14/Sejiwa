@@ -2,34 +2,28 @@ import jwt from 'jsonwebtoken';
 const { SECRET_KEY } = process.env;
 
 function authenticate(req, res, next) {
-  const token = req.header('Authorization')?.split(' ')[1];
-  const refreshToken = req.cookies['refreshToken'];
+   const authHeader = req.headers.authorization;
 
-  if (!token && !refreshToken) {
-    return res.status(401).send('Access Denied. No token provided.');
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(403).json({ message: "Forbidden: No token provided" });
   }
 
-  try {
-    const decoded = jwt.verify(token, SECRET_KEY);
-    req.user = decoded;
-    next();
-  } catch (error) {
-    if (!refreshToken) {
-      return res.status(401).send('Access Denied. No refresh token provided.');
-    }
+  const token = authHeader.split(" ")[1]; 
 
-    try {
-      const decoded = jwt.verify(refreshToken, secretKey);
-      const token = jwt.sign({ user: decoded.user }, secretKey, { expiresIn: '1h' });
-
-      res
-        .cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'strict' })
-        .header('Authorization', token)
-        .send(decoded.user);
-    } catch (error) {
-      return res.status(400).send('Invalid Token.');
-    }
+  if (!process.env.SECRET_KEY) {
+      console.error(" SECRET_KEY is not defined!");
+      return res.status(500).json({ message: "Server error: Missing secret key" });
   }
+
+  jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
+      if (err) {
+          console.error(" Token Verification Error:", err.message);
+          return res.status(403).json({ message: "Forbidden: Invalid token" });
+      }
+
+      req.user = user; 
+      next();
+  });
 }
 
 function authorize(roles = []) {

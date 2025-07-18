@@ -1,6 +1,5 @@
 import pool from "../db/index.mjs";
 
-// cors issue
 const createRoom = (req, res) => {
   const { title, student_id , counselor_id } = req.body;
 
@@ -29,7 +28,6 @@ const getRoom = (req, res, next) => {
     res.status(200).json(results.rows)
   })
 }
-
 
 const getRoomById = (req, res, next) => {
   const id = parseInt(req.params.id)

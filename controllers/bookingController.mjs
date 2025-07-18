@@ -34,7 +34,7 @@ const createBooking = (req, res) => {
     })
 };
 
-const patchUser = async (request, response) => {
+const patchBooking = async (request, response) => {
     const id = parseInt(request.params.id);
     const {  schedule_id, student_id, counselor_id , status, created_at } = request.body;
 
@@ -111,5 +111,6 @@ export default {
   getBookingById,
   createBooking,
   updateBooking,
+  patchBooking,
   deleteBooking,
 }
