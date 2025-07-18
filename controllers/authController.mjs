@@ -63,8 +63,6 @@ const login = async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    
-
     const refreshToken = jwt.sign(
       { id: user.id },
       SECRET_KEY,
